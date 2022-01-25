@@ -19,8 +19,9 @@ function showErrorMessage(msg) {
     console.log(msg);
 }
 
-function checkPlayerInput(inputValue) {
-    
+function playerInputIsCorrect(inputValue) {
+    let inputIsCorrect = (inputValue) ? true : false;
+    return inputIsCorrect;
 }
 
 function calcPlayerMove(inputValue) {
