@@ -19,13 +19,17 @@ function showErrorMessage(msg) {
     console.log(msg);
 }
 
-function playerInputIsCorrect(inputValue) {
-    let inputIsCorrect = (inputValue) ? true : false;
-    return inputIsCorrect;
-}
-
 function calcPlayerMove(inputValue) {
+    let inputIsCorrect = (inputValue) ? true : false;
+    if (!inputIsCorrect) {
+        return inputIsCorrect;
+    } else {
+        inputValue = inputValue.toLowerCase();
+        inputValue = inputValue.replace(inputValue[0], inputValue[0].toUpperCase());
 
+        inputIsCorrect = (inputValue === ROCK) || (inputValue === PAPER) || (inputValue === SCISSORS);
+        return (inputIsCorrect) ? inputValue : inputIsCorrect;
+    }
 }
 
 function computerPlay() {
@@ -42,7 +46,6 @@ function computerPlay() {
             break;
         default:
             computerMove = null;
-            //showErrorMessage('Something has gone wrong in computerPlay!');
     }
 
     return computerMove;
@@ -61,3 +64,31 @@ function playRound(playerMove, computerMove) {
     }
 }
 
+function showRoundResult() {
+    
+}
+
+function mainGame() {
+    const userInput = prompt('Enter your selection:');
+    console.log(userInput);
+    const playerSelection = calcPlayerMove(userInput);
+    console.log(playerSelection);
+
+    if (!playerSelection) {
+        showErrorMessage('Incorrect input! Try again!');
+        return;
+    }
+
+    const computerSelection = computerPlay();
+    console.log(computerSelection);
+
+    if(!computerSelection) {
+        showErrorMessage('Something has gone wrong in computerPlay!')
+        return;
+    }
+
+    const roundResult = playRound(playerSelection, computerSelection);
+    console.log(roundResult);
+}
+
+mainGame();
