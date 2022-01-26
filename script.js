@@ -1,19 +1,10 @@
-// input values
-
-// check values
-
-// show error (msg)
-
-// computer plays - DONE!
-
-// get round result - DONE!
-
-// show result
-
 const ROCK = 'Rock';
 const PAPER = 'Paper';
 const SCISSORS = 'Scissors';
 const DRAW = 'Draw';
+
+let playerScores = 0;
+let computerScores = 0;
 
 function showMessageToPlayer(msg) {
     alert(msg);
@@ -33,6 +24,10 @@ function getPlayerSelection() {
 }
 
 function calcPlayerMove(inputValue) {
+    if (inputValue === null) {
+        return null;
+    }
+
     let inputIsCorrect = (inputValue) ? true : false;
     if (!inputIsCorrect) {
         return inputIsCorrect;
@@ -85,21 +80,34 @@ function showRoundResult(playerSelection, roundResult) {
 function getRoundResultMessage(playerSelection, roundResult) {
     let msg;
     if (roundResult === DRAW) {
-        msg = 'Draw! +1 score to both sides.';
+        msg = `Draw! +1 score to both sides. Computer: ${computerScores} Player: ${playerScores}`;
     } else if(roundResult === playerSelection) {
-        msg = 'Win! Congrulations! +1 score to you!';
+        msg = `Win! Congrulations! +1 score to you! Computer: ${computerScores} Player: ${playerScores}`;
     } else {
-        msg = 'Loose. :( +1 score to computer';
+        msg = `Loose. :( +1 score to computer. Computer: ${computerScores} Player: ${playerScores}`;
     }
 
     return msg;
+}
+
+function calcRoundScores(playerSelection, roundResult) {
+    if (roundResult === DRAW) {
+        playerScores++;
+        computerScores++;
+    } else if(roundResult === playerSelection) {
+        playerScores++;
+    } else {
+        computerScores++;
+    }
 }
 
 function game() {
     let playerSelection;
     do {
         playerSelection = getPlayerSelection();
-        if (!playerSelection) {
+        if (playerSelection === null) {
+            return null;
+        } else if (!playerSelection) {
             showErrorMessage('Incorrect input! Try again!');
         }
     } while (!playerSelection);
@@ -115,22 +123,41 @@ function game() {
     let roundResult = playRound(playerSelection, computerSelection);
     console.log(roundResult);
 
+    calcRoundScores(playerSelection, roundResult);
     showRoundResult(playerSelection, roundResult);
+}
+
+function getWinnerMsgOfAllGame() {
+    let msg;
+    if (playerScores === computerScores) {
+        msg = `DRAW! Computer: ${computerScores} Player: ${playerScores}`;
+    } else if (playerScores > computerScores) {
+        msg = `You won! Computer: ${computerScores} Player: ${playerScores}`;
+    } else {
+        msg = `Computer won! Computer: ${computerScores} Player: ${playerScores}`;
+    }
+
+    return msg;
 }
 
 function main() {
     showMessageToPlayer('Welcome to Rock-Scissors-Paper game in 5 rounds!');
     const roundAmount = 5; // later we can ask for amount
 
+    let gameRes;
     for (let i = 1; i <= 5; i++) {
-        let gameRes = game(); // gameRes is for errors checks
+        console.log(`STARTED ROUND #${i}`);
+        gameRes = game(); // gameRes is for errors checks
         if (gameRes === null) {
-            showErrorMessage('Smth has gone wrong! The game was stopped.');
+            showMessageToPlayer('The game was stopped.');
             break;
         }
     }
 
-    console.log('Finish.')
+    if (gameRes !== null) {
+        console.log('Finish.');
+        showMessageToPlayer(getWinnerMsgOfAllGame());
+    }
 }
 
 //game();
