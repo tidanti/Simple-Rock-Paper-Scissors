@@ -15,8 +15,21 @@ const PAPER = 'Paper';
 const SCISSORS = 'Scissors';
 const DRAW = 'Draw';
 
+function showMessageToPlayer(msg) {
+    alert(msg);
+}
+
 function showErrorMessage(msg) {
     console.log(msg);
+}
+
+function getPlayerSelection() {
+    let userInput = prompt('Enter your selection:');
+    console.log(userInput);
+    let playerSelection = calcPlayerMove(userInput);
+    console.log(playerSelection);
+
+    return playerSelection;
 }
 
 function calcPlayerMove(inputValue) {
@@ -64,31 +77,61 @@ function playRound(playerMove, computerMove) {
     }
 }
 
-function showRoundResult() {
-    
+function showRoundResult(playerSelection, roundResult) {
+    const resMsg = getRoundResultMessage(playerSelection, roundResult);
+    console.log(resMsg);
 }
 
-function mainGame() {
-    const userInput = prompt('Enter your selection:');
-    console.log(userInput);
-    const playerSelection = calcPlayerMove(userInput);
-    console.log(playerSelection);
-
-    if (!playerSelection) {
-        showErrorMessage('Incorrect input! Try again!');
-        return;
+function getRoundResultMessage(playerSelection, roundResult) {
+    let msg;
+    if (roundResult === DRAW) {
+        msg = 'Draw! +1 score to both sides.';
+    } else if(roundResult === playerSelection) {
+        msg = 'Win! Congrulations! +1 score to you!';
+    } else {
+        msg = 'Loose. :( +1 score to computer';
     }
+
+    return msg;
+}
+
+function game() {
+    let playerSelection;
+    do {
+        playerSelection = getPlayerSelection();
+        if (!playerSelection) {
+            showErrorMessage('Incorrect input! Try again!');
+        }
+    } while (!playerSelection);
 
     const computerSelection = computerPlay();
     console.log(computerSelection);
 
     if(!computerSelection) {
         showErrorMessage('Something has gone wrong in computerPlay!')
-        return;
+        return null;
     }
 
-    const roundResult = playRound(playerSelection, computerSelection);
+    let roundResult = playRound(playerSelection, computerSelection);
     console.log(roundResult);
+
+    showRoundResult(playerSelection, roundResult);
 }
 
-mainGame();
+function main() {
+    showMessageToPlayer('Welcome to Rock-Scissors-Paper game in 5 rounds!');
+    const roundAmount = 5; // later we can ask for amount
+
+    for (let i = 1; i <= 5; i++) {
+        let gameRes = game(); // gameRes is for errors checks
+        if (gameRes === null) {
+            showErrorMessage('Smth has gone wrong! The game was stopped.');
+            break;
+        }
+    }
+
+    console.log('Finish.')
+}
+
+//game();
+main();
