@@ -1,3 +1,8 @@
+html {
+    /*min-width: 600px;*/
+    font-family: 'Roboto', sans-serif;
+}
+
 body {
     background-color: #ddd;
     display: flex;
@@ -8,8 +13,78 @@ body {
 
 #main-container {
     margin-top: 5%;
+    padding: 40px;
 
     background-color: #fff;
-    /*width: 30%;*/
+    box-shadow: 0 2px 6px 0 #aaa;
+    /*min-width: 580px;*/
     width: 580px;
+
+    /*flex: 0 0 auto;*/
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    margin: 0 0 40px 0;
+    padding: 0;
+}
+
+.header-text {
+    margin: 0;
+    padding: 0;
+}
+
+#game-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#play-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.player-card {
+    padding: 10px 5px;
+    transition: background-color 0.4s ease-out;
+}
+
+.player-card:hover {
+    cursor: pointer;
+    background-color: #24a777;
+}
+
+/*skipped*/
+
+#robot-area {
+    /*height: 80px;*/
+}
+
+#game-stats-area {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.game-stat {
+    
+}
+
+#restart-button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid #ccc;
+    font-size: 10px;
+    transition: border 0.4s ease-out;
+}
+
+#restart-button:hover {
+    cursor: pointer;
+    border: 2px solid #24a777;
 }
