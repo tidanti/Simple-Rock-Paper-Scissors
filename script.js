@@ -161,4 +161,4 @@ function main() {
 }
 
 //game();
-main();
+//main();
