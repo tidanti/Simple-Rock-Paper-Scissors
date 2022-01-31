@@ -11,22 +11,37 @@
 </head>
 
 <body>
-    <div id="game-container">
+    <div id="main-container">
         <h1>Rock Paper Scissors</h1>
         <p>Play now with Mr. Super!</p>
         <p>Just click one of the options on the left.</p>
         
-        <div>
+        <div id="game-area">
+            <div id="play-cards">
+                <img src="./images/rock.png" alt="Rock" class="player-card">
+                <img src="./images/scissors.png" alt="Scissors" class="player-card">
+                <img src="./images/paper.png" alt="Paper" class="player-card">
+            </div>
 
+            <div id="main-game-section">
+
+            </div>
+
+            <div id="robot-area">
+                <img src="./images/pc_face.png" alt="Robor Mr. Super" class="robot-img">
+            </div>
         </div>
 
-        <div>
-
+        <div id="game-stats-area">
+            <p class="game-stat">TIMES: <span id="times-stat"></span></p>
+            <p class="game-stat">WINS: <span id="wins-stat"></span></p>
+            <p class="game-stat">DRAWS: <span id="draws-stat"></span></p>
+            <p class="game-stat">DEFEATS: <span id="defeats-stat"></span></p>
         </div>
 
-        <p></p>
+        <p id="game-result"></p>
 
-        <button>RESTART</button>
+        <button id="restart-button">RESTART</button>
     </div>
 </body>
 </html>
