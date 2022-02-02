@@ -15,6 +15,11 @@ body {
     padding-right: 10px;
 }
 
+.hidden {
+    opacity: 0;
+    transition: 1s;
+}
+
 #main-container {
     margin-top: 5%;
     padding: 40px;

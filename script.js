@@ -5,14 +5,15 @@ const SCISSORS = 'Scissors';
 const DRAW = 'Draw';
 
 // all elems to manipulate
-const rockChoice = document.querySelector('.player-card.rock');
-const paperChoice = document.querySelector('.player-card.paper');
-const scissorsChoice = document.querySelector('.player-card.scissors');
+/*const rockChoice = document.querySelector('#rock');
+const paperChoice = document.querySelector('#paper');
+const scissorsChoice = document.querySelector('#scissors');*/
+const playerCardsList = document.querySelectorAll('.player-card');
 
 const playerMove = document.querySelector('.main-game-content.player-move-img');
 const computerMove = document.querySelector('.main-game-content.robot-move-img');
 const roundResult = document.querySelector('.main-game-content.round-result');
-const computerFace = document.querySelector('.robot-area .robot-img');
+const computerFace = document.querySelector('#robot-area .robot-img');
 
 const playTimes = document.querySelector('#times-stat');
 const playWins = document.querySelector('#wins-stat');
@@ -26,6 +27,92 @@ const restartBtn = document.querySelector('#restart-button');
 let playerScores = 0;
 let computerScores = 0;
 
+restartBtn.addEventListener('click', restartGame);
+/*rockChoice.addEventListener('click', startRound);
+paperChoice.addEventListener('click', startRound);
+scissorsChoice.addEventListener('click', startRound);*/
+
+playerCardsList.forEach(playerCard => {
+    playerCard.addEventListener('click', startRound);
+});
+
+function restartGame() {
+    playTimes.textContent = '0';
+    playWins.textContent = '0';
+    playDraws.textContent = '0';
+    playDefeats.textContent = '0';
+    
+    resetMovesArea(playerMove, computerMove);
+    roundResult.textContent = 'Let\'s play 5 rounds!';
+
+    changeRobotFace();
+}
+
+function resetMovesArea(...areasToReset) {
+    for (area of areasToReset) {
+        area.childNodes.forEach(child => {
+            area.removeChild(child);
+        });
+    }
+}
+
+function startRound(e) {
+    const playerSelection = calcPlayerMove(e.target);
+    const computerSelection = computerPlay();
+
+    resetMovesArea(playerMove, computerMove);
+    showMoveAtGameArea(playerSelection);
+    showMoveAtGameArea(computerSelection, true);
+
+    const roundResult = playRound(playerSelection, computerSelection);
+    calcRoundScores(playerSelection, roundResult);
+    // show results
+    // final result
+
+}
+
+function showMoveAtGameArea(currentMove, computerArea = false) {
+    roundResult.textContent = '';
+
+    const imgContainer = (computerArea) ? computerMove : playerMove;
+    const currentImg = document.createElement('img');
+    currentImg.classList.toggle('hidden');
+    
+    switch (currentMove) {
+        case ROCK:
+            currentImg.setAttribute('src', './images/rock.png');
+            currentImg.setAttribute('alt', 'Rock');
+            break;
+        case PAPER:
+            currentImg.setAttribute('src', './images/paper.png');
+            currentImg.setAttribute('alt', 'paper');
+            break;
+        default:
+            currentImg.setAttribute('src', './images/scissors.png');
+            currentImg.setAttribute('alt', 'scissors');
+    }
+
+    if (computerArea) {
+        currentImg.style.transform = 'scale(-1.5, 1.5)';
+    } else {
+        currentImg.style.transform = 'scale(1.5)';
+    }
+
+    imgContainer.appendChild(currentImg);
+    currentImg.classList.toggle('hidden'); // DOESN'T WORK!
+}
+
+function changeRobotFace(imgName = '') {
+    if (imgName === 'sad') {
+        computerFace.setAttribute('src', './images/pc_face_sad.png');
+    } else if (imgName === 'glad') {
+        computerFace.setAttribute('src', './images/pc_face_glad.png');
+    } else {
+        computerFace.setAttribute('src', './images/pc_face_start.png');
+    }
+}
+
+// not required
 function showMessageToPlayer(msg) {
     alert(msg);
 }
@@ -44,7 +131,17 @@ function getPlayerSelection() {
 }
 
 function calcPlayerMove(inputValue) {
-    if (inputValue === null) {
+    const currentID = inputValue.getAttribute('id');
+
+    if (currentID === 'rock') {
+        return ROCK;
+    } else if (currentID === 'paper') {
+        return PAPER;
+    } else {
+        return SCISSORS;
+    }
+    
+    /*if (inputValue === null) {
         return null;
     }
 
@@ -57,7 +154,7 @@ function calcPlayerMove(inputValue) {
 
         inputIsCorrect = (inputValue === ROCK) || (inputValue === PAPER) || (inputValue === SCISSORS);
         return (inputIsCorrect) ? inputValue : inputIsCorrect;
-    }
+    }*/
 }
 
 function computerPlay() {
@@ -111,13 +208,35 @@ function getRoundResultMessage(playerSelection, roundResult) {
 }
 
 function calcRoundScores(playerSelection, roundResult) {
+    let currentScores, currentTimes;
+    
+    currentTimes = +(playTimes.textContent);
+    currentTimes += 1;
+    playTimes.textContent = currentTimes;
+
     if (roundResult === DRAW) {
-        playerScores++;
-        computerScores++;
+        /*playerScores++;
+        computerScores++;*/
+
+        currentScores = +(playDraws.textContent);
+        currentScores += 1;
+        playDraws.textContent = currentScores;
+        changeRobotFace('draw');
+
     } else if(roundResult === playerSelection) {
-        playerScores++;
+        //playerScores++;
+        currentScores = +(playWins.textContent);
+        currentScores += 1;
+        playWins.textContent = currentScores;
+        changeRobotFace('sad');
+
     } else {
-        computerScores++;
+        //computerScores++;
+        currentScores = +(playDefeats.textContent);
+        currentScores += 1;
+        playDefeats.textContent = currentScores;
+        changeRobotFace('glad');
+
     }
 }
 
