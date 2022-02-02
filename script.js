@@ -1,8 +1,28 @@
+// constants
 const ROCK = 'Rock';
 const PAPER = 'Paper';
 const SCISSORS = 'Scissors';
 const DRAW = 'Draw';
 
+// all elems to manipulate
+const rockChoice = document.querySelector('.player-card.rock');
+const paperChoice = document.querySelector('.player-card.paper');
+const scissorsChoice = document.querySelector('.player-card.scissors');
+
+const playerMove = document.querySelector('.main-game-content.player-move-img');
+const computerMove = document.querySelector('.main-game-content.robot-move-img');
+const roundResult = document.querySelector('.main-game-content.round-result');
+const computerFace = document.querySelector('.robot-area .robot-img');
+
+const playTimes = document.querySelector('#times-stat');
+const playWins = document.querySelector('#wins-stat');
+const playDraws = document.querySelector('#draws-stat');
+const playDefeats = document.querySelector('#defeats-stat');
+
+const gameResult = document.querySelector('#game-result');
+const restartBtn = document.querySelector('#restart-button');
+
+// global scores
 let playerScores = 0;
 let computerScores = 0;
 

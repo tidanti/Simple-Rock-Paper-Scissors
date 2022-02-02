@@ -1,3 +1,7 @@
+/** {
+    border: 1px solid black;
+}*/
+
 html {
     /*min-width: 600px;*/
     font-family: 'Roboto', sans-serif;
@@ -39,6 +43,7 @@ h1 {
 }
 
 #game-area {
+    align-self: stretch;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -60,6 +65,18 @@ h1 {
     background-color: #24a777;
 }
 
+#main-game-section {
+    flex: 2;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.round-result {
+    margin: 0;
+    font-size: 18px;
+}
+
 /*skipped*/
 
 #robot-area {
@@ -73,7 +90,11 @@ h1 {
 }
 
 .game-stat {
-    
+    font-weight: bold;
+}
+
+.game-scores {
+    font-weight: normal;
 }
 
 #restart-button {

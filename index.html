@@ -20,25 +20,31 @@
         
         <div id="game-area">
             <div id="play-cards">
-                <img src="./images/rock.png" alt="Rock" class="player-card">
-                <img src="./images/scissors.png" alt="Scissors" class="player-card">
-                <img src="./images/paper.png" alt="Paper" class="player-card">
+                <img src="./images/rock.png" alt="Rock" class="player-card rock">
+                <img src="./images/scissors.png" alt="Scissors" class="player-card scissors">
+                <img src="./images/paper.png" alt="Paper" class="player-card paper">
             </div>
 
             <div id="main-game-section">
+                <div class="main-game-content player-move-img">    
+                </div>
 
+                <p class="main-game-content round-result">Let's go!</p>
+
+                <div class="main-game-content robot-move-img">
+                </div>
             </div>
 
             <div id="robot-area">
-                <img src="./images/pc_face.png" alt="Robor Mr. Super" class="robot-img">
+                <img src="./images/pc_face_start.png" alt="Robor Mr. Super" class="robot-img">
             </div>
         </div>
 
         <div id="game-stats-area">
-            <p class="game-stat">TIMES: <span id="times-stat"></span></p>
-            <p class="game-stat">WINS: <span id="wins-stat"></span></p>
-            <p class="game-stat">DRAWS: <span id="draws-stat"></span></p>
-            <p class="game-stat">DEFEATS: <span id="defeats-stat"></span></p>
+            <p class="game-stat">TIMES: <span class="game-scores" id="times-stat"></span></p>
+            <p class="game-stat">WINS: <span class="game-scores" id="wins-stat"></span></p>
+            <p class="game-stat">DRAWS: <span class="game-scores" id="draws-stat"></span></p>
+            <p class="game-stat">DEFEATS: <span class="game-scores" id="defeats-stat"></span></p>
         </div>
 
         <p id="game-result"></p>
