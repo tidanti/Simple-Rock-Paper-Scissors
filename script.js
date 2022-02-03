@@ -44,6 +44,7 @@ function restartGame() {
     
     resetMovesArea(playerMove, computerMove);
     roundResult.textContent = 'Let\'s play 5 rounds!';
+    gameResult.textContent = '';
 
     changeRobotFace();
 }
@@ -67,8 +68,10 @@ function startRound(e) {
     const currentRoundResult = playRound(playerSelection, computerSelection);
     calcRoundScores(playerSelection, currentRoundResult);
     showRoundResult(playerSelection, currentRoundResult);
-    // final result
 
+    if (gameFinished()) {
+        showAllGameResult();
+    }
 }
 
 function showMoveAtGameArea(currentMove, computerArea = false) {
@@ -189,6 +192,16 @@ function playRound(playerMove, computerMove) {
     }
 }
 
+function gameFinished() {
+    return playTimes.textContent == 5;
+}
+
+function showAllGameResult() {
+    const resMsg = getSummaryOfAllGame();
+
+    gameResult.textContent = resMsg;
+}
+
 function showRoundResult(playerSelection, currentRoundResult) {
     const resMsg = getRoundResultMessage(playerSelection, currentRoundResult);
     //console.log(resMsg);
@@ -281,14 +294,28 @@ function game() {
     showRoundResult(playerSelection, roundResult);
 }
 
-function getWinnerMsgOfAllGame() {
-    let msg;
+function getSummaryOfAllGame() {
+    /*let msg;
     if (playerScores === computerScores) {
         msg = `DRAW! Computer: ${computerScores} Player: ${playerScores}`;
     } else if (playerScores > computerScores) {
         msg = `You won! Computer: ${computerScores} Player: ${playerScores}`;
     } else {
         msg = `Computer won! Computer: ${computerScores} Player: ${playerScores}`;
+    }
+
+    return msg;*/
+
+    let msg;
+    const numWins = +(playWins.textContent);
+    const numDefeats = +(playDefeats.textContent);
+
+    if (numWins === numDefeats) {
+        msg = 'DRAW! Nobody wins.';
+    } else if (numWins > numDefeats) {
+        msg = 'WIN! You beat the computer!';
+    } else {
+        msg = 'LOOSER! Mr. Super beats you.'
     }
 
     return msg;
@@ -310,7 +337,7 @@ function main() {
 
     if (gameRes !== null) {
         console.log('Finish.');
-        showMessageToPlayer(getWinnerMsgOfAllGame());
+        showMessageToPlayer(getSummaryOfAllGame());
     }
 }
 

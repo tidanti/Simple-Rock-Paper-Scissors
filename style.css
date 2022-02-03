@@ -82,12 +82,6 @@ h1 {
     font-size: 18px;
 }
 
-/*skipped*/
-
-#robot-area {
-    /*height: 80px;*/
-}
-
 #game-stats-area {
     display: flex;
     justify-content: space-between;
@@ -100,6 +94,11 @@ h1 {
 
 .game-scores {
     font-weight: normal;
+}
+
+#game-result {
+    font-size: 18px;
+    font-style: italic;
 }
 
 #restart-button {
