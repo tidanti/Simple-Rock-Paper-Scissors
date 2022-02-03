@@ -65,7 +65,7 @@ h1 {
     transition: background-color 0.4s ease-out;
 }
 
-.player-card:hover {
+.player-card.hover-card:hover {
     cursor: pointer;
     background-color: #24a777;
 }

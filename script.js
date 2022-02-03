@@ -5,9 +5,6 @@ const SCISSORS = 'Scissors';
 const DRAW = 'Draw';
 
 // all elems to manipulate
-/*const rockChoice = document.querySelector('#rock');
-const paperChoice = document.querySelector('#paper');
-const scissorsChoice = document.querySelector('#scissors');*/
 const playerCardsList = document.querySelectorAll('.player-card');
 
 const playerMove = document.querySelector('.main-game-content.player-move-img');
@@ -23,18 +20,29 @@ const playDefeats = document.querySelector('#defeats-stat');
 const gameResult = document.querySelector('#game-result');
 const restartBtn = document.querySelector('#restart-button');
 
-// global scores
-let playerScores = 0;
-let computerScores = 0;
-
 restartBtn.addEventListener('click', restartGame);
-/*rockChoice.addEventListener('click', startRound);
-paperChoice.addEventListener('click', startRound);
-scissorsChoice.addEventListener('click', startRound);*/
 
-playerCardsList.forEach(playerCard => {
-    playerCard.addEventListener('click', startRound);
-});
+toggleEventListenersToChoiceButtons();
+
+function toggleEventListenersToChoiceButtons(remove = false) {
+    playerCardsList.forEach(playerCard => {
+        if (remove) {
+            playerCard.removeEventListener('click', startRound);
+        } else {
+            playerCard.addEventListener('click', startRound);
+        }
+    });
+}
+
+function toggleLockOfChoiceButtons(lock = false) {
+    playerCardsList.forEach(playerCard => {
+        if (lock) {
+            playerCard.classList.remove('hover-card');
+        } else {
+            playerCard.classList.add('hover-card');
+        }
+    });
+}
 
 function restartGame() {
     playTimes.textContent = '0';
@@ -42,6 +50,8 @@ function restartGame() {
     playDraws.textContent = '0';
     playDefeats.textContent = '0';
     
+    toggleLockOfChoiceButtons();
+    toggleEventListenersToChoiceButtons();
     resetMovesArea(playerMove, computerMove);
     roundResult.textContent = 'Let\'s play 5 rounds!';
     gameResult.textContent = '';
@@ -70,6 +80,8 @@ function startRound(e) {
     showRoundResult(playerSelection, currentRoundResult);
 
     if (gameFinished()) {
+        toggleLockOfChoiceButtons(true);
+        toggleEventListenersToChoiceButtons(true);
         showAllGameResult();
     }
 }
@@ -115,24 +127,6 @@ function changeRobotFace(imgName = '') {
     }
 }
 
-// not required
-function showMessageToPlayer(msg) {
-    alert(msg);
-}
-
-function showErrorMessage(msg) {
-    console.log(msg);
-}
-
-function getPlayerSelection() {
-    let userInput = prompt('Enter your selection:');
-    console.log(userInput);
-    let playerSelection = calcPlayerMove(userInput);
-    console.log(playerSelection);
-
-    return playerSelection;
-}
-
 function calcPlayerMove(inputValue) {
     const currentID = inputValue.getAttribute('id');
 
@@ -143,21 +137,6 @@ function calcPlayerMove(inputValue) {
     } else {
         return SCISSORS;
     }
-    
-    /*if (inputValue === null) {
-        return null;
-    }
-
-    let inputIsCorrect = (inputValue) ? true : false;
-    if (!inputIsCorrect) {
-        return inputIsCorrect;
-    } else {
-        inputValue = inputValue.toLowerCase();
-        inputValue = inputValue.replace(inputValue[0], inputValue[0].toUpperCase());
-
-        inputIsCorrect = (inputValue === ROCK) || (inputValue === PAPER) || (inputValue === SCISSORS);
-        return (inputIsCorrect) ? inputValue : inputIsCorrect;
-    }*/
 }
 
 function computerPlay() {
@@ -204,7 +183,6 @@ function showAllGameResult() {
 
 function showRoundResult(playerSelection, currentRoundResult) {
     const resMsg = getRoundResultMessage(playerSelection, currentRoundResult);
-    //console.log(resMsg);
 
     roundResult.textContent = resMsg;
     switch (resMsg) {
@@ -222,13 +200,10 @@ function showRoundResult(playerSelection, currentRoundResult) {
 function getRoundResultMessage(playerSelection, roundResult) {
     let msg;
     if (roundResult === DRAW) {
-        //msg = `Draw! +1 score to both sides. Computer: ${computerScores} Player: ${playerScores}`;
         msg = 'Draw!';
     } else if(roundResult === playerSelection) {
-        //msg = `Win! Congrulations! +1 score to you! Computer: ${computerScores} Player: ${playerScores}`;
         msg = 'Win! :)';
     } else {
-        //msg = `Loose. :( +1 score to computer. Computer: ${computerScores} Player: ${playerScores}`;
         msg = 'Loose. :(';
     }
 
@@ -243,23 +218,18 @@ function calcRoundScores(playerSelection, roundResult) {
     playTimes.textContent = currentTimes;
 
     if (roundResult === DRAW) {
-        /*playerScores++;
-        computerScores++;*/
-
         currentScores = +(playDraws.textContent);
         currentScores += 1;
         playDraws.textContent = currentScores;
         changeRobotFace('draw');
 
     } else if(roundResult === playerSelection) {
-        //playerScores++;
         currentScores = +(playWins.textContent);
         currentScores += 1;
         playWins.textContent = currentScores;
         changeRobotFace('sad');
 
     } else {
-        //computerScores++;
         currentScores = +(playDefeats.textContent);
         currentScores += 1;
         playDefeats.textContent = currentScores;
@@ -268,78 +238,18 @@ function calcRoundScores(playerSelection, roundResult) {
     }
 }
 
-function game() {
-    let playerSelection;
-    do {
-        playerSelection = getPlayerSelection();
-        if (playerSelection === null) {
-            return null;
-        } else if (!playerSelection) {
-            showErrorMessage('Incorrect input! Try again!');
-        }
-    } while (!playerSelection);
-
-    const computerSelection = computerPlay();
-    console.log(computerSelection);
-
-    if(!computerSelection) {
-        showErrorMessage('Something has gone wrong in computerPlay!')
-        return null;
-    }
-
-    let roundResult = playRound(playerSelection, computerSelection);
-    console.log(roundResult);
-
-    calcRoundScores(playerSelection, roundResult);
-    showRoundResult(playerSelection, roundResult);
-}
-
 function getSummaryOfAllGame() {
-    /*let msg;
-    if (playerScores === computerScores) {
-        msg = `DRAW! Computer: ${computerScores} Player: ${playerScores}`;
-    } else if (playerScores > computerScores) {
-        msg = `You won! Computer: ${computerScores} Player: ${playerScores}`;
-    } else {
-        msg = `Computer won! Computer: ${computerScores} Player: ${playerScores}`;
-    }
-
-    return msg;*/
-
     let msg;
     const numWins = +(playWins.textContent);
     const numDefeats = +(playDefeats.textContent);
 
     if (numWins === numDefeats) {
-        msg = 'DRAW! Nobody wins.';
+        msg = 'DRAW! Nobody wins. Press "Restart".';
     } else if (numWins > numDefeats) {
-        msg = 'WIN! You beat the computer!';
+        msg = 'WIN! You beat the computer! Press "Restart".';
     } else {
-        msg = 'LOOSER! Mr. Super beats you.'
+        msg = 'LOOSER! Mr. Super beats you. Press "Restart".'
     }
 
     return msg;
 }
-
-function main() {
-    showMessageToPlayer('Welcome to Rock-Scissors-Paper game in 5 rounds!');
-    const roundAmount = 5; // later we can ask for amount
-
-    let gameRes;
-    for (let i = 1; i <= 5; i++) {
-        console.log(`STARTED ROUND #${i}`);
-        gameRes = game(); // gameRes is for errors checks
-        if (gameRes === null) {
-            showMessageToPlayer('The game was stopped.');
-            break;
-        }
-    }
-
-    if (gameRes !== null) {
-        console.log('Finish.');
-        showMessageToPlayer(getSummaryOfAllGame());
-    }
-}
-
-//game();
-//main();
