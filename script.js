@@ -107,10 +107,16 @@ function showMoveAtGameArea(currentMove, computerArea = false) {
             currentImg.setAttribute('alt', 'scissors');
     }
 
-    if (computerArea) {
-        currentImg.style.transform = 'scale(-1.5, 1.5)';
+    if (window.innerWidth > 715) {
+        if (computerArea) {
+            currentImg.style.transform = 'scale(-1.5, 1.5)';
+        } else {
+            currentImg.style.transform = 'scale(1.5)';
+        }
     } else {
-        currentImg.style.transform = 'scale(1.5)';
+        if (computerArea) {
+            currentImg.style.transform = 'scale(-1, 1)';
+        }
     }
 
     imgContainer.appendChild(currentImg);
