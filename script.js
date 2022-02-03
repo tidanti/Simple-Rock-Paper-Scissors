@@ -64,9 +64,9 @@ function startRound(e) {
     showMoveAtGameArea(playerSelection);
     showMoveAtGameArea(computerSelection, true);
 
-    const roundResult = playRound(playerSelection, computerSelection);
-    calcRoundScores(playerSelection, roundResult);
-    // show results
+    const currentRoundResult = playRound(playerSelection, computerSelection);
+    calcRoundScores(playerSelection, currentRoundResult);
+    showRoundResult(playerSelection, currentRoundResult);
     // final result
 
 }
@@ -189,19 +189,34 @@ function playRound(playerMove, computerMove) {
     }
 }
 
-function showRoundResult(playerSelection, roundResult) {
-    const resMsg = getRoundResultMessage(playerSelection, roundResult);
-    console.log(resMsg);
+function showRoundResult(playerSelection, currentRoundResult) {
+    const resMsg = getRoundResultMessage(playerSelection, currentRoundResult);
+    //console.log(resMsg);
+
+    roundResult.textContent = resMsg;
+    switch (resMsg) {
+        case 'Win! :)':
+            roundResult.style.color = 'green';
+            break;
+        case 'Loose. :(':
+            roundResult.style.color = 'red';
+            break;
+        default:
+            roundResult.style.color = 'black';
+    }
 }
 
 function getRoundResultMessage(playerSelection, roundResult) {
     let msg;
     if (roundResult === DRAW) {
-        msg = `Draw! +1 score to both sides. Computer: ${computerScores} Player: ${playerScores}`;
+        //msg = `Draw! +1 score to both sides. Computer: ${computerScores} Player: ${playerScores}`;
+        msg = 'Draw!';
     } else if(roundResult === playerSelection) {
-        msg = `Win! Congrulations! +1 score to you! Computer: ${computerScores} Player: ${playerScores}`;
+        //msg = `Win! Congrulations! +1 score to you! Computer: ${computerScores} Player: ${playerScores}`;
+        msg = 'Win! :)';
     } else {
-        msg = `Loose. :( +1 score to computer. Computer: ${computerScores} Player: ${playerScores}`;
+        //msg = `Loose. :( +1 score to computer. Computer: ${computerScores} Player: ${playerScores}`;
+        msg = 'Loose. :(';
     }
 
     return msg;
