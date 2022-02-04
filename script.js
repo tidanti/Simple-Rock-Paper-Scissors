@@ -54,6 +54,7 @@ function restartGame() {
     toggleEventListenersToChoiceButtons();
     resetMovesArea(playerMove, computerMove);
     roundResult.textContent = 'Let\'s play 5 rounds!';
+    roundResult.style.color = 'black';
     gameResult.textContent = '';
 
     changeRobotFace();
